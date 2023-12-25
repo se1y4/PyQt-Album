@@ -101,7 +101,18 @@ class PhotoAlbum(QMainWindow):
         event.accept()
 
     def seeAllAlbum(self):
-        pass
+        img = QFileDialog.getOpenFileNames(self, '1', '2', filter='Images (*.png *.jpg *.jpeg *.bmp)')[0]
+        self.timerimg = QTimer()
+        self.timerimg.timeout.connect(lambda: self.changeimg(img))
+        self.timerimg.start(1000)
+        self.index = 0
+
+    def changeimg(self, img):
+        image = QPixmap(img[self.index])
+        self.index += 1
+        self.image_label.setPixmap(image)
+        self.index %= len(img)
+
 def show_album():
     app = QApplication(sys.argv)
 
